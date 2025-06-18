@@ -5,8 +5,11 @@
   "compilerOptions": {
     "outDir": "./out-tsc/spec",
     "types": [
-      "jasmine"
-    ]
+      "jasmine",
+      "node"
+    ],
+    "moduleResolution": "node",
+    "esModuleInterop": true
   },
   "include": [
     "src/**/*.ts"

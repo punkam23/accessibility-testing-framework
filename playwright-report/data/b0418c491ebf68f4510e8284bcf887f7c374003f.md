@@ -1,0 +1,41 @@
+# Page snapshot
+
+```yaml
+- complementary:
+  - heading "Menú" [level=3]
+  - list:
+    - listitem: 🏠 Inicio
+    - listitem: ✨ Características
+    - listitem: 💰 Precios
+- main:
+  - region "Our Pricing Plans":
+    - heading "Our Pricing Plans" [level=2]
+    - heading "Choose what fits you best" [level=4]
+    - switch [checked]
+    - article "Basic":
+      - heading "Basic" [level=3]
+      - paragraph: $10/month
+      - list:
+        - listitem: Email support
+        - listitem: 1GB Storage
+      - button "Subscribe"
+    - article "Pro":
+      - heading "Pro" [level=3]
+      - paragraph: $25/month
+      - list:
+        - listitem: Priority support
+        - listitem: 10GB Storage
+        - listitem: Analytics
+      - button "Subscribe"
+    - article "VIP":
+      - heading "VIP" [level=3]
+      - paragraph: $100/month
+      - list:
+        - listitem: Dedicated manager
+        - listitem: Unlimited storage
+        - listitem: Advanced analytics
+      - button "Subscribe"
+    - textbox "Promo Code"
+    - button "Apply"
+    - button "?"
+```
