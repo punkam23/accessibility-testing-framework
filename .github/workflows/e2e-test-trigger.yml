@@ -1,0 +1,47 @@
+name: e2e-test-trigger.yml
+on:
+  workflow_run:
+    workflows: [ "Deploy Angular to EC2" ]
+    types:
+      - completed
+
+jobs:
+  e2e:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+
+    env:
+      BASE_URL: ${{ vars.BASE_URL }}
+      ROUTES: ${{ vars.ROUTES }}
+      ACCESSIBILITY_RULES: ${{ vars.ACCESSIBILITY_RULES }}
+      ACCESSIBILITY_TAGS: ${{ vars.ACCESSIBILITY_TAGS }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: Clean previous artifacts
+        run: |
+          rm -rf ./artifacts
+          mkdir -p ./artifacts
+
+      - name: Run Playwright tests
+        run: npx playwright test main-ally.spec.ts
+
+      - name: Upload accessibility report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: accessibility-report
+          path: ./artifacts
