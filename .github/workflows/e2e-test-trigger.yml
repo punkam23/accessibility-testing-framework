@@ -1,13 +1,10 @@
 name: e2e-test-trigger.yml
 on:
-  workflow_run:
-    workflows: [ "Deploy Angular to EC2" ]
-    types:
-      - completed
+  repository_dispatch:
+    types: [build_completed]
 
 jobs:
   e2e:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
 
     env:
