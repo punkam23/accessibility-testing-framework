@@ -22,6 +22,9 @@ jobs:
         with:
           node-version: 18
 
+      - name: Log triggering commit
+        run: echo "Triggered from commit ${{ github.event.client_payload.commit_sha }}"
+
       - name: Install dependencies
         run: npm ci
 
