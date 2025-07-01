@@ -35,6 +35,12 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
+      - name: Clean previous accessibility report folder
+        run: |
+          if [ -d "./artifacts" ]; then
+            rm -rf ./artifacts
+          fi
+
       - name: Run Playwright tests
         run: |
           if [ "${{ github.event.inputs.urls }}" != "" ]; then
