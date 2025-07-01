@@ -24,10 +24,10 @@ test(`Accessibility check for Custom routes`, async ({page}) => {
 
     const results = await axe.analyze();
     const reportData = {results};
+    const report = AxeHtmlReporter.createHtmlReport(reportData);
+    fs.writeFileSync(`./artifacts/accessibility-report-${countReport}.html`, report);
     // Fail the test if violations are found
     if (results.violations.length > 0) {
-      const report = AxeHtmlReporter.createHtmlReport(reportData);
-      fs.writeFileSync(`./artifacts/accessibility-report-${countReport}.html`, report);
       console.log('Accessibility Violations', results.violations);
       violations.push(...results.violations);
       // throw new Error('Accessibility violations found!');
