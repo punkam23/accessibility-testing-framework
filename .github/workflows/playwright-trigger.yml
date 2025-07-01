@@ -35,11 +35,10 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
-      - name: Clean previous accessibility report folder
+      - name: Clean previous artifacts
         run: |
-          if [ -d "./artifacts" ]; then
-            rm -rf ./artifacts
-          fi
+          rm -rf ./artifacts
+          mkdir -p ./artifacts
 
       - name: Run Playwright tests
         run: |
