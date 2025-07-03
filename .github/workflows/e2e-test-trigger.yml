@@ -45,3 +45,10 @@ jobs:
         with:
           name: accessibility-report
           path: ./artifacts
+
+      - name: Upload playwright report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: accessibility-report
+          path: ./playwright-report

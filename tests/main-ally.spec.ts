@@ -14,7 +14,7 @@ const tags = (process.env['ACCESSIBILITY_TAGS'] || '').split(',').map(v => v.tri
 console.log(`Routes ${routes}`);
 console.log(`Rules ${rules} Tags ${tags}`);
 
-routes.forEach((route) => {
+routes.forEach((route, index) => {
   test(`Accessibility check for ${route}`, async ({page}) => {
     await page.goto(route);
 
@@ -29,7 +29,7 @@ routes.forEach((route) => {
     const results = await axe.analyze();
     const reportData = {results};
     const report = AxeHtmlReporter.createHtmlReport(reportData);
-    fs.writeFileSync(`./artifacts/accessibility-report-${route}.html`, report);
+    fs.writeFileSync(`./artifacts/accessibility-report-${index + 1}.html`, report);
     // Fail the test if violations are found
     if (results.violations.length > 0) {
       console.log('Accessibility Violations', results.violations);
