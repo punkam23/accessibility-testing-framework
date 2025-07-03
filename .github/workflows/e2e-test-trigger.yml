@@ -39,16 +39,16 @@ jobs:
       - name: Run Playwright tests
         run: npx playwright test main-ally.spec.ts
 
+      - name: Copy Playwright report to artifacts
+        if: always()
+        run: |
+          if [ -d playwright-report ]; then
+            cp -r playwright-report ./artifacts/
+          fi
+
       - name: Upload accessibility report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: accessibility-report
           path: ./artifacts
-
-      - name: Upload playwright report
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: accessibility-report
-          path: ./playwright-report
