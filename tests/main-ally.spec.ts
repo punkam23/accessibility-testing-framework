@@ -27,9 +27,24 @@ routes.forEach((route, index) => {
 
     // Run accessibility checks
     const results = await axe.analyze();
-    const reportData = {results};
-    const report = AxeHtmlReporter.createHtmlReport(reportData);
-    fs.writeFileSync(`./artifacts/accessibility-report-${index + 1}.html`, report);
+    const failedNodes = results.violations.length;
+    const passedNodes = results.passes.length;
+    const testedNodes = failedNodes + passedNodes;
+    const failurePercent = testedNodes > 0 ? (failedNodes / testedNodes) * 100 : 0;
+    const passedPercent = testedNodes > 0 ? (passedNodes / testedNodes) * 100 : 0;
+
+    const report = AxeHtmlReporter.createHtmlReport({results});
+    const metadataHtml = report.replace(
+      /<h1[^>]*>[^<]*<\/h1>/,
+      match => `${match}
+    <section style="margin-top: 1em; padding: 1em; background: #f9f9f9; border: 1px solid #ddd;">
+      <h2>Accessibility Coverage</h2>
+      <p><strong>Coverage:</strong> ${passedPercent.toFixed(2)}%</p>
+      <p><strong>Failed Percentage:</strong> ${failurePercent.toFixed(2)}%</p>
+    </section>`
+    );
+
+    fs.writeFileSync(`./artifacts/accessibility-report-${index + 1}.html`, metadataHtml);
     // Fail the test if violations are found
     if (results.violations.length > 0) {
       console.log('Accessibility Violations', results.violations);
