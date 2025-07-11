@@ -4,6 +4,7 @@ import AxeBuilder from '@axe-core/playwright';
 import fs from 'fs';
 import * as AxeHtmlReporter from 'axe-html-reporter';
 import dotenv from 'dotenv';
+import {AccessibilityUtils} from './utils/ally-test.util';
 
 
 dotenv.config();
@@ -28,6 +29,14 @@ routes.forEach((route, index) => {
     // Run accessibility checks
     const results = await axe.analyze();
     const failedNodes = results.violations.length;
+
+    let totalViolationsFound = AccessibilityUtils.calculateTotalViolations(results.violations);
+    if (fs.existsSync(`./artifacts/violations-count.json`)) {
+      const data = JSON.parse(fs.readFileSync(`./artifacts/violations-count.json`, 'utf-8'));
+      totalViolationsFound.total += data.total;
+    }
+    fs.writeFileSync(`./artifacts/violations-count.json`, JSON.stringify({ total: totalViolationsFound.total }));
+
     const passedNodes = results.passes.length;
     const testedNodes = failedNodes + passedNodes;
     const failurePercent = testedNodes > 0 ? (failedNodes / testedNodes) * 100 : 0;
@@ -53,4 +62,9 @@ routes.forEach((route, index) => {
       console.log('No accessibility violations found.');
     }
   });
+});
+
+test.afterAll(async () => {
+  const data = JSON.parse(fs.readFileSync(`./artifacts/violations-count.json`, 'utf-8'));
+  console.log(`Total accessibility violations across all routes: ${data.total}`);
 });
