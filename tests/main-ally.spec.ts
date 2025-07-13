@@ -19,6 +19,7 @@ routes.forEach((route, index) => {
   test(`Accessibility check for ${route}`, async ({page}) => {
     await page.goto(route);
 
+    await page.waitForLoadState('networkidle');
     const axe = new AxeBuilder({page});
 
     if (rules && rules?.length > 0)
