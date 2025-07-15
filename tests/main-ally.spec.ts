@@ -1,4 +1,4 @@
-import { test } from '@playwright/test';
+import {expect, test } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 // @ts-ignore
 import fs from 'fs';
@@ -20,6 +20,16 @@ routes.forEach((route, index) => {
     await page.goto(route);
 
     await page.waitForLoadState('networkidle');
+
+    const mainElement = await page.$('main');
+
+    if (mainElement) {
+      await page.waitForSelector('main');
+      await expect(await page.locator('main')).toBeVisible();
+    } else {
+      console.log('No main element found.');
+    }
+
     const axe = new AxeBuilder({page});
 
     if (rules && rules?.length > 0)
