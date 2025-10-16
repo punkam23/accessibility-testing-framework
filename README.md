@@ -135,5 +135,5 @@ This project is licensed under the **MIT License** — see the [LICENSE](LICENSE
 
 ## 👤 Authors / Maintainers
 
-- **punkam23**  
+- **Yehoshua Matamoros Valverde**  
   GitHub: [https://github.com/punkam23](https://github.com/punkam23)
