@@ -1,6 +1,6 @@
 # Accessibility Testing Framework
 
-[![Build Status](https://github.com/punkam23/accessibility-testing-framework/actions/workflows/ci.yml/badge.svg)](https://github.com/punkam23/accessibility-testing-framework/actions)
+(https://github.com/punkam23/accessibility-testing-framework/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 A framework for automating **accessibility testing**.  
